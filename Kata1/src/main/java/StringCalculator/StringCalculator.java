@@ -16,9 +16,16 @@ public class StringCalculator
         }
         else
         {
+            String delimiter = ",|\\n";
+            // Detect new delimiter
+            if (numbers.startsWith("//"))
+            {
+                delimiter = numbers.substring(2, 3); // Support delimiter one char
+                numbers = numbers.substring(3);
+            }
             // Should be a number or numbers
             // C1: Using regex to parse a number
-            String[] arrayNumbers = numbers.split(",|\\n");
+            String[] arrayNumbers = numbers.split(delimiter);
             // C2: Using regex to parse numbers
             int totalValue = 0;
             for (String number : arrayNumbers)
