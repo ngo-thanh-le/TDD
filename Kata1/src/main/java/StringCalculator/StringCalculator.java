@@ -16,7 +16,7 @@ public class StringCalculator
         {
             // Should be a number or numbers
             // C1: Using regex to parse a number
-            String[] arrayNumbers = numbers.split(",");
+            String[] arrayNumbers = numbers.split(",|\\n");
             // C2: Using regex to parse numbers
             int totalValue = 0;
             for (String number : arrayNumbers)
