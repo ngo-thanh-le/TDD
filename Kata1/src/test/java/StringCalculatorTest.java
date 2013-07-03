@@ -62,4 +62,11 @@ public class StringCalculatorTest
         int result = stringCalculator.add("1\n,2,3");
         fail();
     }
+
+    @Test
+    public void testAddNumbers_NewDelimiter()
+    {
+        int result = stringCalculator.add("//;1;2");
+        assertEquals(3, result);
+    }
 }
