@@ -38,4 +38,11 @@ public class StringCalculatorTest
         int result = stringCalculator.add("1,2");
         assertEquals(3, result);
     }
+
+    @Test
+    public void testAddNumbers_UnspecifiedNoOfParameters()
+    {
+        int result = stringCalculator.add("1,3,4,5");
+        assertEquals(13, result);
+    }
 }
