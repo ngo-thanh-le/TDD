@@ -2,7 +2,10 @@ import StringCalculator.StringCalculator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.security.InvalidParameterException;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 /**
  * User: lent
@@ -51,5 +54,12 @@ public class StringCalculatorTest
     {
         int result = stringCalculator.add("1\n2,3");
         assertEquals(6, result);
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void testAddNumbers_NewLineBetweenParametersWithDoubleSeparator()
+    {
+        int result = stringCalculator.add("1\n,2,3");
+        fail();
     }
 }
