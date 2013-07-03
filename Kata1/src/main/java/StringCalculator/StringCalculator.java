@@ -1,5 +1,7 @@
 package StringCalculator;
 
+import java.security.InvalidParameterException;
+
 /**
  * User: lent
  * Date: 7/3/13
@@ -21,7 +23,14 @@ public class StringCalculator
             int totalValue = 0;
             for (String number : arrayNumbers)
             {
-                totalValue += Integer.parseInt(number);
+                try
+                {
+                    totalValue += Integer.parseInt(number);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidParameterException("Invalid parameter input");
+                }
             }
             return totalValue;
         }
