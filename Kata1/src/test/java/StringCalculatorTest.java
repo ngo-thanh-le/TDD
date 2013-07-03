@@ -45,4 +45,11 @@ public class StringCalculatorTest
         int result = stringCalculator.add("1,3,4,5");
         assertEquals(13, result);
     }
+
+    @Test
+    public void testAddNumbers_NewLineBetweenParameters()
+    {
+        int result = stringCalculator.add("1\n2,3");
+        assertEquals(6, result);
+    }
 }
