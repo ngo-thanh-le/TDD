@@ -1,6 +1,8 @@
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: lent
@@ -18,9 +20,12 @@ public class StringCalculator
         {
             String delimiter = ",|\\n";
             // Detect new delimiter
-            if (numbers.startsWith("//"))
+            Pattern regex = Pattern.compile("//(.*)\\n");
+            Matcher matcher = regex.matcher(numbers);
+            if (matcher.find(0))
             {
-                delimiter = numbers.substring(2, 3); // Support delimiter one char
+                delimiter = matcher.group(1);
+                // delimiter = numbers.substring(2, 3); // Support delimiter one char
                 String endingDelimiter = numbers.substring(3, 4);
                 if (!endingDelimiter.equals("\n"))
                 {
@@ -39,7 +44,8 @@ public class StringCalculator
                 try
                 {
                     Integer value = Integer.parseInt(number);
-                    if (value < 0) {
+                    if (value < 0)
+                    {
                         invalidNumbers.add(value.toString());
                     }
                     totalValue += value;
@@ -49,9 +55,11 @@ public class StringCalculator
                     throw new InvalidParameterException("Invalid parameter input");
                 }
             }
-            if (invalidNumbers.size()>0) {
+            if (invalidNumbers.size() > 0)
+            {
                 String message = "Negatives are not allowed. Wrong: ";
-                for (String invalidValue : invalidNumbers) {
+                for (String invalidValue : invalidNumbers)
+                {
                     message += invalidValue + ",";
                 }
                 message = message.substring(0, message.length() - 1);
