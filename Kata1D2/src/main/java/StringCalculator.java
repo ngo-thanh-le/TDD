@@ -1,5 +1,6 @@
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,25 +19,40 @@ public class StringCalculator
         }
         else
         {
-            String delimiter = ",";
-            // Detect new delimiter
-            Pattern regex = Pattern.compile("//(.*)\\n");
+            List<String> delimiters = new ArrayList<String>();
+            delimiters.add(",");
+            delimiters.add("\\n");
+            // Detect new delimiters
+            Pattern regex = Pattern.compile("//(\\[.*\\])*\\n");
             Matcher matcher = regex.matcher(numbers);
+            String additionalDelimiters;
             if (matcher.find(0))
             {
-                delimiter = matcher.group(1);
-                // delimiter = numbers.substring(2, 3); // Support delimiter one char
-                int delimiterPosition = 2 + delimiter.length();
-                String endingDelimiter = numbers.substring(delimiterPosition, delimiterPosition + 1);
-                if (!endingDelimiter.equals("\n"))
-                {
-                    throw new InvalidParameterException();
-                }
-                numbers = numbers.substring(delimiterPosition + 1);
+                String fullMark = matcher.group(0);
+                numbers = numbers.replace(fullMark, "");
+                additionalDelimiters = matcher.group(1);
+                // Break delimiters(s) if any
+                additionalDelimiters = additionalDelimiters.substring(1, additionalDelimiters.length() - 1);
+                String[] arrDelimiters = additionalDelimiters.split("\\]\\[");
+                // delimiters = numbers.substring(2, 3); // Support delimiters one char
+                delimiters.addAll(Arrays.asList(arrDelimiters));
             }
             // Should be a number or numbers
             // C1: Using regex to parse a number
-            String[] arrayNumbers = numbers.split(Pattern.quote(delimiter) + "|\\n");
+            String finalSplitters = "";
+            for (String splitter : delimiters)
+            {
+                if (splitter.equals(",") || splitter.equals("\\n"))
+                {
+                    finalSplitters += splitter + "|";
+                }
+                else
+                {
+                    finalSplitters += Pattern.quote(splitter) + "|";
+                }
+            }
+            finalSplitters = finalSplitters.substring(0, finalSplitters.length() - 1);
+            String[] arrayNumbers = numbers.split(finalSplitters);
             // C2: Using regex to parse numbers
             int totalValue = 0;
             List<String> invalidNumbers = new ArrayList<String>();

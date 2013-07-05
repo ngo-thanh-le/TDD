@@ -66,7 +66,7 @@ public class StringCalculatorTest
     @Test
     public void testAddNumbers_CustomSeparator() throws Exception
     {
-        int result = stringCalculator.add("//;\n1;2");
+        int result = stringCalculator.add("//[;]\n1;2");
         assertEquals(3, result);
     }
 
