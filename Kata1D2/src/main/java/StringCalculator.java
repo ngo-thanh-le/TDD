@@ -18,7 +18,7 @@ public class StringCalculator
         }
         else
         {
-            String delimiter = ",|\\n";
+            String delimiter = ",";
             // Detect new delimiter
             Pattern regex = Pattern.compile("//(.*)\\n");
             Matcher matcher = regex.matcher(numbers);
@@ -26,16 +26,17 @@ public class StringCalculator
             {
                 delimiter = matcher.group(1);
                 // delimiter = numbers.substring(2, 3); // Support delimiter one char
-                String endingDelimiter = numbers.substring(3, 4);
+                int delimiterPosition = 2 + delimiter.length();
+                String endingDelimiter = numbers.substring(delimiterPosition, delimiterPosition + 1);
                 if (!endingDelimiter.equals("\n"))
                 {
                     throw new InvalidParameterException();
                 }
-                numbers = numbers.substring(4);
+                numbers = numbers.substring(delimiterPosition + 1);
             }
             // Should be a number or numbers
             // C1: Using regex to parse a number
-            String[] arrayNumbers = numbers.split(delimiter);
+            String[] arrayNumbers = numbers.split(Pattern.quote(delimiter) + "|\\n");
             // C2: Using regex to parse numbers
             int totalValue = 0;
             List<String> invalidNumbers = new ArrayList<String>();
@@ -48,7 +49,10 @@ public class StringCalculator
                     {
                         invalidNumbers.add(value.toString());
                     }
-                    totalValue += value;
+                    if (value < 1000)
+                    {
+                        totalValue += value;
+                    }
                 }
                 catch (Exception e)
                 {
