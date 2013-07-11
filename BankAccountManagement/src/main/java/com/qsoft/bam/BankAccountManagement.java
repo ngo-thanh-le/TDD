@@ -16,4 +16,8 @@ public interface BankAccountManagement
     void deposit(String accountNo, double amount, String description);
 
     List<Transaction> getTransaction(String accountNo, Date from, Date to);
+
+    void withdraw(String accountNo, double amount, String description);
+
+    List<Transaction> getTransactionsOccurred(String accountNo);
 }

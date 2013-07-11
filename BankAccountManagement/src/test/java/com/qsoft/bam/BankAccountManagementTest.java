@@ -59,4 +59,31 @@ public class BankAccountManagementTest
         assertEquals(transactions.get(0).getAccountNo(), 1000000d);
         assertEquals(transactions.get(0).getAccountNo(), "01234567890");
     }
+
+    @Test
+    public void testWithdraw()
+    {
+        bankAccountManagement.openAccount("1234567890", 999999d);
+        bankAccountManagement.withdraw("1234567890", 888888d, "Give me 888888$.");
+        BankAccount account = bankAccountManagement.getAccount("01234567890");
+        assertNotNull(account);
+        assertEquals(111111d, account.getBalance());
+        assertEquals("01234567890", account.getAccountNo());
+    }
+
+    @Test
+    public void testGetTransactionsOccurred()
+    {
+        bankAccountManagement.openAccount("1234567890", 999999d);
+        bankAccountManagement.withdraw("1234567890", 888888d, "Give me 888888$$.");
+        bankAccountManagement.deposit("1234567890", 888888d, "Return you 888888$$.");
+        BankAccount account = bankAccountManagement.getAccount("01234567890");
+        assertNotNull(account);
+        assertEquals(1000000d, account.getBalance());
+        assertEquals("01234567890", account.getAccountNo());
+        List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("01234567890");
+        assertEquals(2, transactions.size());
+        assertEquals(-888888d, transactions.get(0).getAmount());
+        assertEquals(888888d, transactions.get(1).getAmount());
+    }
 }

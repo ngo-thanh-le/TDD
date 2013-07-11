@@ -32,4 +32,16 @@ public class BankAccountManagementImpl implements BankAccountManagement
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void withdraw(String accountNo, double amount, String description)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<Transaction> getTransactionsOccurred(String accountNo)
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
