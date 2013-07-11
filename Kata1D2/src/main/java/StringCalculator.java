@@ -19,40 +19,10 @@ public class StringCalculator
         }
         else
         {
-            List<String> delimiters = new ArrayList<String>();
-            delimiters.add(",");
-            delimiters.add("\\n");
-            // Detect new delimiters
-            Pattern regex = Pattern.compile("//(\\[.*\\])*\\n");
-            Matcher matcher = regex.matcher(numbers);
-            String additionalDelimiters;
-            if (matcher.find(0))
-            {
-                String fullMark = matcher.group(0);
-                numbers = numbers.replace(fullMark, "");
-                additionalDelimiters = matcher.group(1);
-                // Break delimiters(s) if any
-                additionalDelimiters = additionalDelimiters.substring(1, additionalDelimiters.length() - 1);
-                String[] arrDelimiters = additionalDelimiters.split("\\]\\[");
-                // delimiters = numbers.substring(2, 3); // Support delimiters one char
-                delimiters.addAll(Arrays.asList(arrDelimiters));
-            }
-            // Should be a number or numbers
-            // C1: Using regex to parse a number
-            String finalSplitters = "";
-            for (String splitter : delimiters)
-            {
-                if (splitter.equals(",") || splitter.equals("\\n"))
-                {
-                    finalSplitters += splitter + "|";
-                }
-                else
-                {
-                    finalSplitters += Pattern.quote(splitter) + "|";
-                }
-            }
-            finalSplitters = finalSplitters.substring(0, finalSplitters.length() - 1);
-            String[] arrayNumbers = numbers.split(finalSplitters);
+            StringBuilder sbNumbers = new StringBuilder(numbers);
+            String splitters = processSplitterMark(sbNumbers);
+            numbers = sbNumbers.toString();
+            String[] arrayNumbers = numbers.split(splitters);
             // C2: Using regex to parse numbers
             int totalValue = 0;
             List<String> invalidNumbers = new ArrayList<String>();
@@ -87,5 +57,51 @@ public class StringCalculator
             }
             return totalValue;
         }
+    }
+
+    private String processSplitterMark(StringBuilder numbers)
+    {
+        List<String> delimiters = new ArrayList<String>();
+        delimiters.add(",");
+        delimiters.add("\\n");
+        // Detect new delimiters
+        Pattern regex = Pattern.compile("//((.)|(\\[.*\\])*)\\n");
+        String temporaryValue = numbers.toString();
+        Matcher matcher = regex.matcher(temporaryValue);
+        String additionalDelimiters;
+        if (matcher.find(0))
+        {
+            String fullMark = matcher.group(0);
+            numbers.delete(0, numbers.length());
+            numbers.append(temporaryValue.replace(fullMark, ""));
+            additionalDelimiters = matcher.group(1);
+            // Break delimiters(s) if any
+            if (additionalDelimiters.length() > 1)
+            {
+                additionalDelimiters = additionalDelimiters.substring(1, additionalDelimiters.length() - 1);
+            }
+            String[] arrDelimiters = additionalDelimiters.split("\\]\\[");
+            // delimiters = numbers.substring(2, 3); // Support delimiters one char
+            delimiters.addAll(Arrays.asList(arrDelimiters));
+        }
+        return createSplittersPattern(delimiters);
+    }
+
+    private String createSplittersPattern(List<String> delimiters)
+    {
+        String finalSplitters = "";
+        for (String splitter : delimiters)
+        {
+            if (splitter.equals(",") || splitter.equals("\\n"))
+            {
+                finalSplitters += splitter + "|";
+            }
+            else
+            {
+                finalSplitters += Pattern.quote(splitter) + "|";
+            }
+        }
+        finalSplitters = finalSplitters.substring(0, finalSplitters.length() - 1);
+        return finalSplitters;
     }
 }
