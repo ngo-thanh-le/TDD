@@ -1,4 +1,8 @@
-package com.qsoft.bam;
+package com.qsoft.bam.service;
+
+import com.qsoft.bam.BankAccount;
+import com.qsoft.bam.Transaction;
+import com.qsoft.bam.dao.BankAccountDAO;
 
 import java.util.Date;
 import java.util.List;
@@ -9,10 +13,21 @@ import java.util.List;
  */
 public class BankAccountManagementImpl implements BankAccountManagement
 {
+    private BankAccountDAO bankAccountDAO;
+
+    @Override
+    public void setBankAccountDAO(BankAccountDAO bankAccountDAO)
+    {
+        this.bankAccountDAO = bankAccountDAO;
+    }
+
     @Override
     public void openAccount(String accountNo, double balance)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        BankAccount account = new BankAccount();
+        account.setAccountNo(accountNo);
+        account.setBalance(balance);
+        bankAccountDAO.create(account);
     }
 
     @Override
@@ -28,7 +43,7 @@ public class BankAccountManagementImpl implements BankAccountManagement
     }
 
     @Override
-    public List<Transaction> getTransaction(String accountNo, Date from, Date to)
+    public List<Transaction> getTransactionsOccurred(String accountNo, Date from, Date to)
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

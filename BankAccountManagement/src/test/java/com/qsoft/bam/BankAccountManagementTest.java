@@ -1,6 +1,10 @@
 package com.qsoft.bam;
 
+import com.qsoft.bam.dao.BankAccountDAO;
+import com.qsoft.bam.service.BankAccountManagement;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +18,10 @@ import static junit.framework.TestCase.assertNull;
  */
 public class BankAccountManagementTest
 {
+    @Mock
+    private BankAccountDAO mockBankAccountDAO;
+
+    @InjectMocks
     BankAccountManagement bankAccountManagement;
 
     @Test
@@ -54,7 +62,7 @@ public class BankAccountManagementTest
         assertEquals(1000000d, account.getBalance());
         assertEquals("01234567890", account.getAccountNo());
 
-        List<Transaction> transactions = bankAccountManagement.getTransaction("1234567890", new Date(), new Date());
+        List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("1234567890", new Date(), new Date());
         assertTrue(transactions.size() == 1);
         assertEquals(transactions.get(0).getAccountNo(), 1000000d);
         assertEquals(transactions.get(0).getAccountNo(), "01234567890");
@@ -82,6 +90,25 @@ public class BankAccountManagementTest
         assertEquals(1000000d, account.getBalance());
         assertEquals("01234567890", account.getAccountNo());
         List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("01234567890");
+        assertEquals(2, transactions.size());
+        assertEquals(-888888d, transactions.get(0).getAmount());
+        assertEquals(888888d, transactions.get(1).getAmount());
+    }
+
+    @Test
+    public void testGetTransactionsOccurredFromThisToThat()
+    {
+        bankAccountManagement.openAccount("1234567890", 999999d);
+        Date timeBegin = new Date();
+        bankAccountManagement.withdraw("1234567890", 888888d, "Give me 888888$$.");
+        bankAccountManagement.deposit("1234567890", 888888d, "Return you 888888$$.");
+        Date timeEnd = new Date();
+        bankAccountManagement.withdraw("1234567890", 111111d, "Overtime");
+        BankAccount account = bankAccountManagement.getAccount("01234567890");
+        assertNotNull(account);
+        assertEquals(1000000d, account.getBalance());
+        assertEquals("01234567890", account.getAccountNo());
+        List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("01234567890", timeBegin, timeEnd);
         assertEquals(2, transactions.size());
         assertEquals(-888888d, transactions.get(0).getAmount());
         assertEquals(888888d, transactions.get(1).getAmount());
