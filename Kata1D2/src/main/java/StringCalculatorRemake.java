@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
  */
 public class StringCalculatorRemake
 {
-    // No possible blue
-
     public Integer addNumbers(String s) throws Exception
     {
         if (StringUtils.isEmpty(s))
@@ -77,6 +75,16 @@ public class StringCalculatorRemake
             if (pattern.matches("\\[.*\\]"))
             {
                 pattern = pattern.substring(1, pattern.length() - 1);
+                String[] multiPatternParsed = pattern.split("\\]\\[");
+                if (multiPatternParsed.length > 1)
+                {
+                    // Should be multi pattern
+                    for (String subPattern : multiPatternParsed)
+                    {
+                        finalPattern += Pattern.quote(subPattern) + "|";
+                    }
+                    continue;
+                }
             }
             finalPattern += Pattern.quote(pattern) + "|";
         }
@@ -86,7 +94,7 @@ public class StringCalculatorRemake
 
     private Matcher matchRegex(String possibleInput)
     {
-        Pattern regex = Pattern.compile("//(\\[.*\\]|.)\\n(.*)");
+        Pattern regex = Pattern.compile("//(\\[.*\\]|.)*\\n(.*)");
         Matcher matcher = regex.matcher(possibleInput);
         if (matcher.find(0))
         {
