@@ -44,4 +44,11 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("1,2,3,4,5");
         assertEquals(15, result);
     }
+
+    @Test
+    public void testAddNumbers_NewLineSeparator() throws Exception
+    {
+        int result = stringCalculator.addNumbers("1\n2,3,4,5");
+        assertEquals(15, result);
+    }
 }
