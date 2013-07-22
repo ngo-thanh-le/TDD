@@ -31,10 +31,6 @@ public class StringCalculatorRemake
         for (String number : numbers)
         {
             isNumberOnly(number);
-            if (StringUtils.isEmpty(number))
-            {
-                throw new InvalidParameterException();
-            }
             result += Integer.parseInt(number);
         }
         return result;
