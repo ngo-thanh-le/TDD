@@ -112,5 +112,10 @@ public class StringCalculatorRemakeTest
         assertEquals(2, result);
     }
 
-    // No possible blue
+    @Test
+    public void testAddNumbers_CustomDelimiterVeryLong() throws Exception
+    {
+        int result = stringCalculator.addNumbers("//[*****]\n1*****2*****3");
+        assertEquals(6, result);
+    }
 }
