@@ -30,4 +30,11 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("1");
         assertEquals(1, result);
     }
+
+    @Test
+    public void testAddNumbers_TwoNumbers() throws Exception
+    {
+        int result = stringCalculator.addNumbers("1,2");
+        assertEquals(3, result);
+    }
 }
