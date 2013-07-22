@@ -68,7 +68,15 @@ public class StringCalculatorRemake
         String finalPattern = "";
         for (String pattern : patterns)
         {
-            finalPattern += pattern + "|";
+            if (pattern == null)
+            {
+                continue;
+            }
+            if (pattern.matches("\\[.*\\]"))
+            {
+                pattern = pattern.substring(1, pattern.length() - 1);
+            }
+            finalPattern += Pattern.quote(pattern) + "|";
         }
         finalPattern = finalPattern.substring(0, finalPattern.length() - 1);
         return finalPattern;
@@ -76,7 +84,7 @@ public class StringCalculatorRemake
 
     private Matcher matchRegex(String possibleInput)
     {
-        Pattern regex = Pattern.compile("//(.)\\n(.*)");
+        Pattern regex = Pattern.compile("//(\\[.*\\]|.)\\n(.*)");
         Matcher matcher = regex.matcher(possibleInput);
         if (matcher.find(0))
         {
