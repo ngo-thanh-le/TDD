@@ -30,6 +30,7 @@ public class StringCalculatorRemake
         Integer result = 0;
         for (String number : numbers)
         {
+            isNumberOnly(number);
             if (StringUtils.isEmpty(number))
             {
                 throw new InvalidParameterException();
@@ -59,5 +60,18 @@ public class StringCalculatorRemake
             return matcher;
         }
         return null;
+    }
+
+    private boolean isNumberOnly(String input) throws InvalidParameterException
+    {
+        try
+        {
+            Integer.parseInt(input);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidParameterException();
+        }
+        return true;
     }
 }
