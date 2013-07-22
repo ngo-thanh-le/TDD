@@ -5,6 +5,7 @@ import java.security.InvalidParameterException;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * User: lent
@@ -76,4 +77,17 @@ public class StringCalculatorRemakeTest
         fail();
     }
 
+    @Test
+    public void testAddNumbers_OneNegativeNumber()
+    {
+        try
+        {
+            int result = stringCalculator.addNumbers("-1");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e.getMessage().equals("Negatives are not allowed. Wrong: -1"));
+        }
+    }
 }
