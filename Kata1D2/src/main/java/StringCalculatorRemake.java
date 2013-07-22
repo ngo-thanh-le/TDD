@@ -8,15 +8,22 @@ import java.security.InvalidParameterException;
  */
 public class StringCalculatorRemake
 {
-    // No blue possible by now
     public Integer addNumbers(String s)
     {
-        // Nothing to blue
         if (StringUtils.isEmpty(s))
         {
             return 0;
         }
-        String[] numbers = s.split(createSplitterPatterns(",", "\n"));
+        // Detect custom delimiter
+        String customerDelimiter = null;
+        if (s.startsWith("//"))
+        {
+            customerDelimiter = s.substring(s.indexOf("//") + "//".length(), s.indexOf("\n"));
+            // Cut the string
+            s = s.substring(s.indexOf("\n") + 1);
+        }
+
+        String[] numbers = s.split(createSplitterPatterns(",", "\n", customerDelimiter));
         Integer result = 0;
         for (String number : numbers)
         {
