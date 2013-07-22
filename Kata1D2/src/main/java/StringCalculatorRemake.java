@@ -37,10 +37,16 @@ public class StringCalculatorRemake
             {
                 negativeNumbers.add(number);
             }
-            result += Integer.parseInt(number);
+            result += customParseNumber(number);
         }
         checkNegativeNumbers(negativeNumbers);
         return result;
+    }
+
+    private int customParseNumber(String number)
+    {
+        int result = Integer.parseInt(number);
+        return result > 1000 ? 0 : result;
     }
 
     private void checkNegativeNumbers(List<String> negativeNumbers) throws Exception
