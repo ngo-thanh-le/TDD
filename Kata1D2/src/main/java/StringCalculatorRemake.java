@@ -87,14 +87,10 @@ public class StringCalculatorRemake
     {
         pattern = pattern.substring(1, pattern.length() - 1);
         String[] multiPatternParsed = pattern.split("\\]\\[");
-        if (multiPatternParsed.length >= 1)
-        {
-            // Should be multi pattern
-            for (String subPattern : multiPatternParsed)
-            {
-                finalPattern += Pattern.quote(subPattern) + "|";
-            }
 
+        for (String subPattern : multiPatternParsed)
+        {
+            finalPattern += Pattern.quote(subPattern) + "|";
         }
         return finalPattern;
     }
