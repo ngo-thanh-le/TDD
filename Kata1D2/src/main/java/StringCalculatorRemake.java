@@ -8,6 +8,7 @@ import java.security.InvalidParameterException;
  */
 public class StringCalculatorRemake
 {
+    // No blue possible by now
     public Integer addNumbers(String s)
     {
         // Nothing to blue
