@@ -84,9 +84,9 @@ public class BankAccountManagementTest
     public void testOpenAccount()
     {
         bankAccountManagement.openAccount("1234567890", 0d);
-        BankAccount account = bankAccountManagement.getAccount("01234567890");
+        BankAccount account = bankAccountManagement.getAccount("1234567890");
         assertNotNull(account);
-        assertEquals("01234567890", account.getAccountNo());
+        assertEquals("1234567890", account.getAccountNo());
         assertEquals(0d, account.getBalance());
     }
 
