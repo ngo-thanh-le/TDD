@@ -111,4 +111,6 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("1001,2");
         assertEquals(2, result);
     }
+
+    // No possible blue
 }
