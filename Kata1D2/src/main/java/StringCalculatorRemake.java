@@ -1,6 +1,8 @@
 import org.apache.commons.lang3.StringUtils;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +30,25 @@ public class StringCalculatorRemake
 
         String[] numbers = s.split(createSplitterPatterns(",", "\n", customerDelimiter));
         Integer result = 0;
+        List<String> negativeNumbers = new ArrayList<String>();
         for (String number : numbers)
         {
-            isPositiveNumber(number);
+            boolean isPositiveNumber = isPositiveNumber(number);
+            if (!isPositiveNumber)
+            {
+                negativeNumbers.add(number);
+            }
             result += Integer.parseInt(number);
+        }
+        if (negativeNumbers.size() > 0)
+        {
+            String message = "Negatives are not allowed. Wrong: ";
+            for (String negativeNumber : negativeNumbers)
+            {
+                message += negativeNumber + ",";
+            }
+            message = message.substring(0, message.length() - 1);
+            throw new Exception(message);
         }
         return result;
     }
@@ -58,15 +75,12 @@ public class StringCalculatorRemake
         return null;
     }
 
-    private void isPositiveNumber(String input) throws Exception
+    private boolean isPositiveNumber(String input) throws Exception
     {
         try
         {
             int result = Integer.parseInt(input);
-            if (result < 0)
-            {
-                throw new Exception("Negatives are not allowed. Wrong: " + result);
-            }
+            return result >= 0;
         }
         catch (NumberFormatException e)
         {
