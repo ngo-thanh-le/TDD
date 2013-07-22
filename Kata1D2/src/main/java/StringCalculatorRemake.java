@@ -74,21 +74,28 @@ public class StringCalculatorRemake
             }
             if (pattern.matches("\\[.*\\]"))
             {
-                pattern = pattern.substring(1, pattern.length() - 1);
-                String[] multiPatternParsed = pattern.split("\\]\\[");
-                if (multiPatternParsed.length > 1)
-                {
-                    // Should be multi pattern
-                    for (String subPattern : multiPatternParsed)
-                    {
-                        finalPattern += Pattern.quote(subPattern) + "|";
-                    }
-                    continue;
-                }
+                finalPattern = parseCustomPatterns(finalPattern, pattern);
+                continue;
             }
             finalPattern += Pattern.quote(pattern) + "|";
         }
         finalPattern = finalPattern.substring(0, finalPattern.length() - 1);
+        return finalPattern;
+    }
+
+    private String parseCustomPatterns(String finalPattern, String pattern)
+    {
+        pattern = pattern.substring(1, pattern.length() - 1);
+        String[] multiPatternParsed = pattern.split("\\]\\[");
+        if (multiPatternParsed.length >= 1)
+        {
+            // Should be multi pattern
+            for (String subPattern : multiPatternParsed)
+            {
+                finalPattern += Pattern.quote(subPattern) + "|";
+            }
+
+        }
         return finalPattern;
     }
 
