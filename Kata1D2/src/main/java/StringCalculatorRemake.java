@@ -1,6 +1,8 @@
 import org.apache.commons.lang3.StringUtils;
 
 import java.security.InvalidParameterException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: lent
@@ -18,7 +20,7 @@ public class StringCalculatorRemake
         String customerDelimiter = null;
         if (s.startsWith("//"))
         {
-            customerDelimiter = s.substring(s.indexOf("//") + "//".length(), s.indexOf("\n"));
+            customerDelimiter = matchRegex(s).group(1);
             // Cut the string
             s = s.substring(s.indexOf("\n") + 1);
         }
@@ -45,5 +47,16 @@ public class StringCalculatorRemake
         }
         finalPattern = finalPattern.substring(0, finalPattern.length() - 1);
         return finalPattern;
+    }
+
+    private Matcher matchRegex(String possibleInput)
+    {
+        Pattern regex = Pattern.compile("//(.)\\n");
+        Matcher matcher = regex.matcher(possibleInput);
+        if (matcher.find(0))
+        {
+            return matcher;
+        }
+        return null;
     }
 }
