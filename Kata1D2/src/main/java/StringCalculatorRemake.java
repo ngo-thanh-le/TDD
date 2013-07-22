@@ -13,7 +13,7 @@ public class StringCalculatorRemake
         {
             return 0;
         }
-        String[] numbers = s.split(",");
+        String[] numbers = s.split(",|\n");
         Integer result = 0;
         for (String number : numbers)
         {
