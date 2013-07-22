@@ -61,4 +61,11 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("1\n,2,3,4,5");
         fail();
     }
+
+    @Test
+    public void testAddNumbers_CustomSeparator() throws Exception
+    {
+        int result = stringCalculator.addNumbers("//;\n1;2");
+        assertEquals(3, result);
+    }
 }
