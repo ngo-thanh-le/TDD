@@ -18,6 +18,10 @@ import static junit.framework.TestCase.assertNull;
  */
 public class BankAccountManagementTest
 {
+    // This is the first phase, big RED, all requirements are converted to test case
+    // This way is better than create one by one test failed
+    // After the whole set of tests are created, we follow up the process of RED > GREEN > BLUE (Clean)
+    // But the approach is a little difference, as we try to green one by one tests.
     @Mock
     private BankAccountDAO mockBankAccountDAO;
 
