@@ -6,6 +6,6 @@ public class StringCalculatorRemake
 {
     public Integer addNumbers(String s)
     {
-        return null;
+        return 0;
     }
 }
