@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
  */
 public class StringCalculatorRemake
 {
+    // No possible blue
+
     public Integer addNumbers(String s) throws Exception
     {
         if (StringUtils.isEmpty(s))
