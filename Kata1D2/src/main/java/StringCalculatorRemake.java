@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.StringUtils;
 
+import java.security.InvalidParameterException;
+
 /**
  * User: lent
  * Date: 7/22/13
@@ -17,6 +19,10 @@ public class StringCalculatorRemake
         Integer result = 0;
         for (String number : numbers)
         {
+            if (StringUtils.isEmpty(number))
+            {
+                throw new InvalidParameterException();
+            }
             result += Integer.parseInt(number);
         }
         return result;
