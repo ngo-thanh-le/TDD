@@ -13,6 +13,12 @@ public class StringCalculatorRemake
         {
             return 0;
         }
-        return Integer.parseInt(s);
+        String[] numbers = s.split(",");
+        Integer result = 0;
+        for (String number : numbers)
+        {
+            result += Integer.parseInt(number);
+        }
+        return result;
     }
 }
