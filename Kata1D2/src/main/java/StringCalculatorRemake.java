@@ -18,9 +18,9 @@ public class StringCalculatorRemake
         }
         // Detect custom delimiter
         String customerDelimiter = null;
-        if (s.startsWith("//"))
+        Matcher matcher = matchRegex(s);
+        if (matcher != null)
         {
-            Matcher matcher = matchRegex(s);
             customerDelimiter = matcher.group(1);
             // Cut the string
             s = matcher.group(2);
