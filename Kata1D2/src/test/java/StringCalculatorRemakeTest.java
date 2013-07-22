@@ -1,7 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.security.InvalidParameterException;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 /**
  * User: lent
@@ -50,5 +53,12 @@ public class StringCalculatorRemakeTest
     {
         int result = stringCalculator.addNumbers("1\n2,3,4,5");
         assertEquals(15, result);
+    }
+
+    @Test(expected = InvalidParameterException.class)
+    public void testAddNumbers_NewLineSeparatorWithAnotherSeparatorCauseException() throws Exception
+    {
+        int result = stringCalculator.addNumbers("1\n,2,3,4,5");
+        fail();
     }
 }
