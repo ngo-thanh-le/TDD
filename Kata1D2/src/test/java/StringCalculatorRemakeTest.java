@@ -118,4 +118,11 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("//[*****]\n1*****2*****3");
         assertEquals(6, result);
     }
+
+    @Test
+    public void testAddNumbers_CustomLongDelimitors() throws Exception
+    {
+        int result = stringCalculator.addNumbers("//[**][%]\n1**2%3");
+        assertEquals(6, result);
+    }
 }
