@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class StringCalculatorRemake
 {
-    public Integer addNumbers(String s)
+    public Integer addNumbers(String s) throws Exception
     {
         if (StringUtils.isEmpty(s))
         {
@@ -30,7 +30,7 @@ public class StringCalculatorRemake
         Integer result = 0;
         for (String number : numbers)
         {
-            isNumberOnly(number);
+            isPositiveNumber(number);
             result += Integer.parseInt(number);
         }
         return result;
@@ -58,13 +58,17 @@ public class StringCalculatorRemake
         return null;
     }
 
-    private boolean isNumberOnly(String input) throws InvalidParameterException
+    private boolean isPositiveNumber(String input) throws Exception
     {
         try
         {
-            Integer.parseInt(input);
+            int result = Integer.parseInt(input);
+            if (result < 0)
+            {
+                throw new Exception("Negatives are not allowed. Wrong: " + result);
+            }
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             throw new InvalidParameterException();
         }
