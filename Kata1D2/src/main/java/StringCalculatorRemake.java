@@ -33,13 +33,18 @@ public class StringCalculatorRemake
         List<String> negativeNumbers = new ArrayList<String>();
         for (String number : numbers)
         {
-            boolean isPositiveNumber = isPositiveNumber(number);
-            if (!isPositiveNumber)
+            if (!isPositiveNumber(number))
             {
                 negativeNumbers.add(number);
             }
             result += Integer.parseInt(number);
         }
+        checkNegativeNumbers(negativeNumbers);
+        return result;
+    }
+
+    private void checkNegativeNumbers(List<String> negativeNumbers) throws Exception
+    {
         if (negativeNumbers.size() > 0)
         {
             String message = "Negatives are not allowed. Wrong: ";
@@ -50,7 +55,6 @@ public class StringCalculatorRemake
             message = message.substring(0, message.length() - 1);
             throw new Exception(message);
         }
-        return result;
     }
 
     public String createSplitterPatterns(String... patterns)
