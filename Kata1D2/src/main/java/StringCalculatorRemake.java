@@ -58,7 +58,7 @@ public class StringCalculatorRemake
         return null;
     }
 
-    private boolean isPositiveNumber(String input) throws Exception
+    private void isPositiveNumber(String input) throws Exception
     {
         try
         {
