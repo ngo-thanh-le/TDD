@@ -6,6 +6,7 @@ public class StringCalculatorRemake
 {
     public Integer addNumbers(String s)
     {
+        // Nothing to blue
         return 0;
     }
 }
