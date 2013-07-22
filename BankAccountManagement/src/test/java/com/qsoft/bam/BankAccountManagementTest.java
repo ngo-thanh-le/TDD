@@ -2,15 +2,22 @@ package com.qsoft.bam;
 
 import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.service.BankAccountManagement;
+import com.qsoft.bam.service.BankAccountManagementImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.*;
 import static junit.framework.TestCase.assertNull;
+import static org.mockito.Mockito.*;
 
 /**
  * User: lent
@@ -26,7 +33,45 @@ public class BankAccountManagementTest
     private BankAccountDAO mockBankAccountDAO;
 
     @InjectMocks
-    BankAccountManagement bankAccountManagement;
+    BankAccountManagement bankAccountManagement = new BankAccountManagementImpl();
+
+    @Before
+    public void setup()
+    {
+        MockitoAnnotations.initMocks(this);
+        // Testing in this focus on the value one - which is BankAccountManagement, verify DAO is called in valid
+        // aspects. DAO is mocked by a mock framework with a fixed set of data.
+
+        // Better if we could create a dump implement class, but as requirement, I provide a dynamic mock that truly
+        // represent a working context.
+        final List<BankAccount> availableAccounts = new ArrayList<BankAccount>();
+
+        doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable
+            {
+                availableAccounts.add((BankAccount) invocation.getArguments()[0]);
+                return null;
+            }
+        }).when(mockBankAccountDAO).create((BankAccount) anyObject());
+
+        doAnswer(new Answer<BankAccount>()
+        {
+            @Override
+            public BankAccount answer(InvocationOnMock invocation) throws Throwable
+            {
+                for (BankAccount bankAccount : availableAccounts)
+                {
+                    if (bankAccount.getAccountNo().equals(invocation.getArguments()[0]))
+                    {
+                        return bankAccount;
+                    }
+                }
+                return null;
+            }
+        }).when(mockBankAccountDAO).get(anyString());
+    }
 
     @Test
     public void testRetrieveNotExist()
