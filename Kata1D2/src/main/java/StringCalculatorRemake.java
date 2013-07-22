@@ -8,6 +8,7 @@ public class StringCalculatorRemake
 {
     public Integer addNumbers(String s)
     {
+        // Nothing to blue
         if (StringUtils.isEmpty(s))
         {
             return 0;
