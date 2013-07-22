@@ -90,4 +90,18 @@ public class StringCalculatorRemakeTest
             assertTrue(e.getMessage().equals("Negatives are not allowed. Wrong: -1"));
         }
     }
+
+    @Test
+    public void testAddNumbers_MultiNegativeNumbers()
+    {
+        try
+        {
+            int result = stringCalculator.addNumbers("-1,2,-3");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e.getMessage().equals("Negatives are not allowed. Wrong: -1,-3"));
+        }
+    }
 }
