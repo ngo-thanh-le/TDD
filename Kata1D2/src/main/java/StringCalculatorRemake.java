@@ -72,6 +72,5 @@ public class StringCalculatorRemake
         {
             throw new InvalidParameterException();
         }
-        return true;
     }
 }
