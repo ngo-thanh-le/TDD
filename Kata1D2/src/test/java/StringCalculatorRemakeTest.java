@@ -104,4 +104,11 @@ public class StringCalculatorRemakeTest
             assertTrue(e.getMessage().equals("Negatives are not allowed. Wrong: -1,-3"));
         }
     }
+
+    @Test
+    public void testAddNumbers_IgnoreGreaterThan1000() throws Exception
+    {
+        int result = stringCalculator.addNumbers("1001,2");
+        assertEquals(2, result);
+    }
 }
