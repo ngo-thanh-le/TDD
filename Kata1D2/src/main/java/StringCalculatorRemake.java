@@ -20,9 +20,10 @@ public class StringCalculatorRemake
         String customerDelimiter = null;
         if (s.startsWith("//"))
         {
-            customerDelimiter = matchRegex(s).group(1);
+            Matcher matcher = matchRegex(s);
+            customerDelimiter = matcher.group(1);
             // Cut the string
-            s = s.substring(s.indexOf("\n") + 1);
+            s = matcher.group(2);
         }
 
         String[] numbers = s.split(createSplitterPatterns(",", "\n", customerDelimiter));
@@ -51,7 +52,7 @@ public class StringCalculatorRemake
 
     private Matcher matchRegex(String possibleInput)
     {
-        Pattern regex = Pattern.compile("//(.)\\n");
+        Pattern regex = Pattern.compile("//(.)\\n(.*)");
         Matcher matcher = regex.matcher(possibleInput);
         if (matcher.find(0))
         {
