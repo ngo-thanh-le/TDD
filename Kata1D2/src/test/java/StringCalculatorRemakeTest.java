@@ -68,4 +68,12 @@ public class StringCalculatorRemakeTest
         int result = stringCalculator.addNumbers("//;\n1;2");
         assertEquals(3, result);
     }
+
+    @Test(expected = InvalidParameterException.class)
+    public void testAddNumbers_CustomSeparatorWrong() throws Exception
+    {
+        int result = stringCalculator.addNumbers("//;1;2");
+        fail();
+    }
+
 }
