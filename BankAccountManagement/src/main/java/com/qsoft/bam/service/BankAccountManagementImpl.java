@@ -75,7 +75,15 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public void withdraw(String accountNo, double amount, String description)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        BankAccount account = bankAccountDAO.get(accountNo);
+        account.setBalance(account.getBalance() - amount);
+        bankAccountDAO.update(account);
+        Transaction transaction = new Transaction();
+        transaction.setAccountNo(accountNo);
+        transaction.setAmount(amount);
+        transaction.setDescription(description);
+        transaction.setTransactionTime(new Date());
+        transactionDAO.create(transaction);
     }
 
     @Override
