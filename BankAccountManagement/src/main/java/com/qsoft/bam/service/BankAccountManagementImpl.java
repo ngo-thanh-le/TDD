@@ -43,15 +43,7 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public void deposit(String accountNo, double amount, String description)
     {
-        BankAccount account = bankAccountDAO.get(accountNo);
-        account.setBalance(account.getBalance() + amount);
-        bankAccountDAO.update(account);
-        Transaction transaction = new Transaction();
-        transaction.setAccountNo(accountNo);
-        transaction.setAmount(amount);
-        transaction.setDescription(description);
-        transaction.setTransactionTime(new Date());
-        transactionDAO.create(transaction);
+        modifyAccountAmount(accountNo, amount, description);
     }
 
     @Override
@@ -75,8 +67,13 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public void withdraw(String accountNo, double amount, String description)
     {
+        modifyAccountAmount(accountNo, -amount, description);
+    }
+
+    private void modifyAccountAmount(String accountNo, double amount, String description)
+    {
         BankAccount account = bankAccountDAO.get(accountNo);
-        account.setBalance(account.getBalance() - amount);
+        account.setBalance(account.getBalance() + amount);
         bankAccountDAO.update(account);
         Transaction transaction = new Transaction();
         transaction.setAccountNo(accountNo);

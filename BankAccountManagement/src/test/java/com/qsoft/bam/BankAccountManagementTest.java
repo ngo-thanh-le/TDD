@@ -184,6 +184,11 @@ public class BankAccountManagementTest
         assertNotNull(account);
         assertEquals(111111d, account.getBalance());
         assertEquals("1234567890", account.getAccountNo());
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(1)).update((BankAccount) anyObject());
     }
 
     @Test
