@@ -31,6 +31,7 @@ public class BankAccountManagementImpl implements BankAccountManagement
         BankAccount account = new BankAccount();
         account.setAccountNo(accountNo);
         account.setBalance(balance);
+        account.setOpenTimestamp(new Date());
         bankAccountDAO.create(account);
     }
 
