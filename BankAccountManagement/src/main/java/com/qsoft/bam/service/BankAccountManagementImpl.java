@@ -102,6 +102,20 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public List<Transaction> getRecentTransactions(String accountNo, int numberOfTransaction)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        // Simple implement, with retrieve all and filter
+        List<Transaction> transactions = transactionDAO.findAll();
+        List<Transaction> results = new ArrayList<Transaction>();
+        for (Transaction transaction : transactions)
+        {
+            if (transaction.getAccountNo().equals(accountNo))
+            {
+                if (results.size() > (numberOfTransaction - 1))
+                {
+                    results.remove(0);
+                }
+                results.add(transaction);
+            }
+        }
+        return results;
     }
 }
