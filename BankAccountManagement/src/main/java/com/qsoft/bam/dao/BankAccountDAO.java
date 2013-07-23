@@ -17,4 +17,9 @@ public class BankAccountDAO
     {
         return null;
     }
+
+    public void update(BankAccount updatedAccount)
+    {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }
