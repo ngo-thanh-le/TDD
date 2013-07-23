@@ -30,10 +30,10 @@ public class BankAccountManagementTest
     // After the whole set of tests are created, we follow up the process of RED > GREEN > BLUE (Clean)
     // But the approach is a little difference, as we try to green one by one tests.
     @Mock
-    private BankAccountDAO mockBankAccountDAO;
+    private BankAccountDAO mockBankAccountDAO = mock(BankAccountDAO.class);
 
     @Mock
-    private TransactionDAO mockTransactionDAO;
+    private TransactionDAO mockTransactionDAO = mock(TransactionDAO.class);
 
     @InjectMocks
     BankAccountManagement bankAccountManagement = new BankAccountManagementImpl();
@@ -236,6 +236,31 @@ public class BankAccountManagementTest
         assertEquals(2, transactions.size());
         assertEquals(-888888d, transactions.get(0).getAmount());
         assertEquals(888888d, transactions.get(1).getAmount());
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(4)).get("1234567890");
+        verify(mockTransactionDAO, times(3)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(3)).update((BankAccount) anyObject());
+    }
+
+    @Test
+    public void testGetRecentTransactions() throws InterruptedException
+    {
+        bankAccountManagement.openAccount("1234567890", 999999d);
+        bankAccountManagement.withdraw("1234567890", 888888d, "Give me 888888$$.");
+        bankAccountManagement.deposit("1234567890", 888888d, "Return you 888888$$.");
+        bankAccountManagement.withdraw("1234567890", 111111d, "Overtime Spending");
+        bankAccountManagement.withdraw("1234567890", 111111d, "Overtime Spending");
+        bankAccountManagement.withdraw("1234567890", 111111d, "Overtime Spending");
+        bankAccountManagement.withdraw("1234567890", 111111d, "Overtime Spending");
+
+        List<Transaction> transactions = bankAccountManagement.getRecentTransactions("1234567890", 5);
+        assertEquals(5, transactions.size());
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(6)).get("1234567890");
+        verify(mockTransactionDAO, times(6)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(6)).update((BankAccount) anyObject());
     }
 
     @After

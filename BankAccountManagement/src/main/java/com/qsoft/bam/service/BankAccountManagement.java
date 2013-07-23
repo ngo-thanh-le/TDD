@@ -26,4 +26,6 @@ public interface BankAccountManagement
     void withdraw(String accountNo, double amount, String description);
 
     List<Transaction> getTransactionsOccurred(String accountNo);
+
+    List<Transaction> getRecentTransactions(String accountNo, int numberOfTransaction);
 }

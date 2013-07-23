@@ -98,4 +98,10 @@ public class BankAccountManagementImpl implements BankAccountManagement
     {
         return getTransactionsOccurred(accountNo, null, null);
     }
+
+    @Override
+    public List<Transaction> getRecentTransactions(String accountNo, int numberOfTransaction)
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

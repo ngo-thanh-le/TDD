@@ -6,20 +6,11 @@ import com.qsoft.bam.BankAccount;
  * User: lent
  * Date: 7/12/13
  */
-public class BankAccountDAO
+public interface BankAccountDAO
 {
-    public void create(BankAccount account)
-    {
-        //To change body of created methods use File | Settings | File Templates.
-    }
+    public void create(BankAccount account);
 
-    public BankAccount get(String accountNo)
-    {
-        return null;
-    }
+    public BankAccount get(String accountNo);
 
-    public void update(BankAccount updatedAccount)
-    {
-        //To change body of created methods use File | Settings | File Templates.
-    }
+    public void update(BankAccount updatedAccount);
 }

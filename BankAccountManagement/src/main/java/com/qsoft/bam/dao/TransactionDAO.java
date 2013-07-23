@@ -8,16 +8,9 @@ import java.util.List;
  * User: lent
  * Date: 7/23/13
  */
-public class TransactionDAO
+public interface TransactionDAO
 {
+    public void create(Transaction transaction);
 
-    public void create(Transaction transaction)
-    {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public List<Transaction> findAll()
-    {
-        return null;  //To change body of created methods use File | Settings | File Templates.
-    }
+    public List<Transaction> findAll();
 }
