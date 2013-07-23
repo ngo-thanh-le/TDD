@@ -66,20 +66,12 @@ public class BankAccountManagementImpl implements BankAccountManagement
 
     private boolean isAfterOrEquals(Date reference, Date from)
     {
-        if (reference.compareTo(from) >= 0)
-        {
-            return true;
-        }
-        return false;
+        return reference.compareTo(from) >= 0;
     }
 
     private boolean isBeforeOrEquals(Date reference, Date from)
     {
-        if (reference.compareTo(from) <= 0)
-        {
-            return true;
-        }
-        return false;
+        return reference.compareTo(from) <= 0;
     }
 
     @Override
