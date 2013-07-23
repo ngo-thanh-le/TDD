@@ -4,6 +4,7 @@ import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
 import com.qsoft.bam.service.BankAccountManagement;
 import com.qsoft.bam.service.BankAccountManagementImpl;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ public class BankAccountManagementTest
     private BankAccountDAO mockBankAccountDAO;
 
     @Mock
-    private TransactionDAO transactionDAO;
+    private TransactionDAO mockTransactionDAO;
 
     @InjectMocks
     BankAccountManagement bankAccountManagement = new BankAccountManagementImpl();
@@ -85,7 +86,7 @@ public class BankAccountManagementTest
                 occurredTransactions.add((Transaction) invocation.getArguments()[0]);
                 return null;
             }
-        }).when(transactionDAO).create((Transaction) anyObject());
+        }).when(mockTransactionDAO).create((Transaction) anyObject());
     }
 
     @Test
@@ -114,6 +115,10 @@ public class BankAccountManagementTest
         assertNotNull(account);
         assertEquals(1000000d, account.getBalance());
         assertEquals("1234567890", account.getAccountNo());
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockTransactionDAO, only()).create((Transaction) anyObject());
     }
 
     @Test
@@ -176,5 +181,11 @@ public class BankAccountManagementTest
         assertEquals(2, transactions.size());
         assertEquals(-888888d, transactions.get(0).getAmount());
         assertEquals(888888d, transactions.get(1).getAmount());
+    }
+
+    @After
+    public void tearDown()
+    {
+        reset(mockBankAccountDAO, mockTransactionDAO);
     }
 }
