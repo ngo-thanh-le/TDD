@@ -55,13 +55,31 @@ public class BankAccountManagementImpl implements BankAccountManagement
         for (Transaction transaction : transactions)
         {
             if (transaction.getAccountNo().equals(accountNo)
-                    && (from == null || transaction.getTransactionTime().after(from))
-                    && (to == null || transaction.getTransactionTime().before(to)))
+                    && (from == null || isAfterOrEquals(transaction.getTransactionTime(), from))
+                    && (to == null || isBeforeOrEquals(transaction.getTransactionTime(), to)))
             {
                 results.add(transaction);
             }
         }
         return results;
+    }
+
+    private boolean isAfterOrEquals(Date reference, Date from)
+    {
+        if (reference.compareTo(from) >= 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBeforeOrEquals(Date reference, Date from)
+    {
+        if (reference.compareTo(from) <= 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     @Override
