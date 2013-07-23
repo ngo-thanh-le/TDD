@@ -263,6 +263,35 @@ public class BankAccountManagementTest
         verify(mockBankAccountDAO, times(6)).update((BankAccount) anyObject());
     }
 
+    @Test
+    public void testOpenAccountStoredMomentCreatedIt() throws InterruptedException
+    {
+        Date beforeOpen = new Date();
+        bankAccountManagement.openAccount("1234567890", 999999d);
+        Date afterOpen = new Date();
+
+        BankAccount account = bankAccountManagement.getAccount("1234567890");
+
+        assertNotNull(account.getOpenTimestamp());
+        assertTrue(beforeOpen.before(account.getOpenTimestamp()));
+        assertTrue(afterOpen.after(account.getOpenTimestamp()));
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(6)).get("1234567890");
+        verify(mockTransactionDAO, times(6)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(6)).update((BankAccount) anyObject());
+    }
+
+    private boolean isAfterOrEquals(Date reference, Date from)
+    {
+        return from == null || reference.compareTo(from) >= 0;
+    }
+
+    private boolean isBeforeOrEquals(Date reference, Date to)
+    {
+        return to == null || reference.compareTo(to) <= 0;
+    }
+
     @After
     public void tearDown()
     {
