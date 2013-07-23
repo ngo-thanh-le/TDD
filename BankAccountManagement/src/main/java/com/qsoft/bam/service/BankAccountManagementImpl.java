@@ -4,6 +4,7 @@ import com.qsoft.bam.BankAccount;
 import com.qsoft.bam.Transaction;
 import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
+import com.qsoft.bam.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,8 +57,8 @@ public class BankAccountManagementImpl implements BankAccountManagement
         for (Transaction transaction : transactions)
         {
             if (transaction.getAccountNo().equals(accountNo)
-                    && isAfterOrEquals(transaction.getTransactionTime(), from)
-                    && isBeforeOrEquals(transaction.getTransactionTime(), to))
+                    && DateUtils.isAfterOrEquals(transaction.getTransactionTime(), from)
+                    && DateUtils.isBeforeOrEquals(transaction.getTransactionTime(), to))
             {
                 results.add(transaction);
             }
@@ -65,15 +66,6 @@ public class BankAccountManagementImpl implements BankAccountManagement
         return results;
     }
 
-    private boolean isAfterOrEquals(Date reference, Date from)
-    {
-        return from == null || reference.compareTo(from) >= 0;
-    }
-
-    private boolean isBeforeOrEquals(Date reference, Date to)
-    {
-        return to == null || reference.compareTo(to) <= 0;
-    }
 
     @Override
     public void withdraw(String accountNo, double amount, String description)

@@ -4,6 +4,7 @@ import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
 import com.qsoft.bam.service.BankAccountManagement;
 import com.qsoft.bam.service.BankAccountManagementImpl;
+import com.qsoft.bam.utils.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -273,22 +274,12 @@ public class BankAccountManagementTest
         BankAccount account = bankAccountManagement.getAccount("1234567890");
 
         assertNotNull(account.getOpenTimestamp());
-        assertTrue(isBeforeOrEquals(beforeOpen, account.getOpenTimestamp()));
-        assertTrue(isAfterOrEquals(afterOpen, account.getOpenTimestamp()));
+        assertTrue(DateUtils.isBeforeOrEquals(beforeOpen, account.getOpenTimestamp()));
+        assertTrue(DateUtils.isAfterOrEquals(afterOpen, account.getOpenTimestamp()));
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(1)).get("1234567890");
         verify(mockBankAccountDAO, times(0)).update((BankAccount) anyObject());
-    }
-
-    private boolean isAfterOrEquals(Date reference, Date from)
-    {
-        return from == null || reference.compareTo(from) >= 0;
-    }
-
-    private boolean isBeforeOrEquals(Date reference, Date to)
-    {
-        return to == null || reference.compareTo(to) <= 0;
     }
 
     @After
