@@ -213,17 +213,24 @@ public class BankAccountManagementTest
     }
 
     @Test
-    public void testGetTransactionsOccurredFromThisToThat()
+    public void testGetTransactionsOccurredFromThisToThat() throws InterruptedException
     {
+        GregorianCalendar testingTime = new GregorianCalendar();
+        // Reduce time by 1s
+        testingTime.add(Calendar.SECOND, -1);
+        Date timeBegin = testingTime.getTime();
+
         bankAccountManagement.openAccount("1234567890", 999999d);
-        Date timeBegin = new Date();
         bankAccountManagement.withdraw("1234567890", 888888d, "Give me 888888$$.");
         bankAccountManagement.deposit("1234567890", 888888d, "Return you 888888$$.");
+
         Date timeEnd = new Date();
+        Thread.sleep(100);
+
         bankAccountManagement.withdraw("1234567890", 111111d, "Overtime");
         BankAccount account = bankAccountManagement.getAccount("1234567890");
         assertNotNull(account);
-        assertEquals(1000000d, account.getBalance());
+        assertEquals(888888d, account.getBalance());
         assertEquals("1234567890", account.getAccountNo());
         List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("1234567890", timeBegin, timeEnd);
         assertEquals(2, transactions.size());
