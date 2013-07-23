@@ -199,7 +199,7 @@ public class BankAccountManagementTest
         bankAccountManagement.deposit("1234567890", 888888d, "Return you 888888$$.");
         BankAccount account = bankAccountManagement.getAccount("1234567890");
         assertNotNull(account);
-        assertEquals(1000000d, account.getBalance());
+        assertEquals(999999d, account.getBalance());
         assertEquals("1234567890", account.getAccountNo());
         List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("1234567890");
         assertEquals(2, transactions.size());
