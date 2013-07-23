@@ -55,8 +55,8 @@ public class BankAccountManagementImpl implements BankAccountManagement
         for (Transaction transaction : transactions)
         {
             if (transaction.getAccountNo().equals(accountNo)
-                    && transaction.getTransactionTime().after(from)
-                    && transaction.getTransactionTime().before(to))
+                    && (from == null || transaction.getTransactionTime().after(from))
+                    && (to == null || transaction.getTransactionTime().before(to)))
             {
                 results.add(transaction);
             }
@@ -86,16 +86,6 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public List<Transaction> getTransactionsOccurred(String accountNo)
     {
-        // Simple implement, with retrieve all and filter
-        List<Transaction> transactions = transactionDAO.findAll();
-        List<Transaction> results = new ArrayList<Transaction>();
-        for (Transaction transaction : transactions)
-        {
-            if (transaction.getAccountNo().equals(accountNo))
-            {
-                results.add(transaction);
-            }
-        }
-        return results;
+        return getTransactionsOccurred(accountNo, null, null);
     }
 }
