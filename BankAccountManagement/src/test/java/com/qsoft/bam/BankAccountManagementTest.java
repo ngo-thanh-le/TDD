@@ -273,13 +273,12 @@ public class BankAccountManagementTest
         BankAccount account = bankAccountManagement.getAccount("1234567890");
 
         assertNotNull(account.getOpenTimestamp());
-        assertTrue(beforeOpen.before(account.getOpenTimestamp()));
-        assertTrue(afterOpen.after(account.getOpenTimestamp()));
+        assertTrue(isBeforeOrEquals(beforeOpen, account.getOpenTimestamp()));
+        assertTrue(isAfterOrEquals(afterOpen, account.getOpenTimestamp()));
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(6)).get("1234567890");
-        verify(mockTransactionDAO, times(6)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(6)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(1)).get("1234567890");
+        verify(mockBankAccountDAO, times(0)).update((BankAccount) anyObject());
     }
 
     private boolean isAfterOrEquals(Date reference, Date from)
