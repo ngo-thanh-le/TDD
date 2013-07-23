@@ -60,6 +60,24 @@ public class BankAccountManagementTest
             }
         }).when(mockBankAccountDAO).create((BankAccount) anyObject());
 
+        doAnswer(new Answer<Void>()
+        {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable
+            {
+                for (BankAccount bankAccount : availableAccounts)
+                {
+                    BankAccount updatedBankAccountParam = (BankAccount) invocation.getArguments()[0];
+                    if (bankAccount.getAccountNo()
+                            .equals(updatedBankAccountParam.getAccountNo()))
+                    {
+                        bankAccount.setBalance(updatedBankAccountParam.getBalance());
+                    }
+                }
+                return null;
+            }
+        }).when(mockBankAccountDAO).update((BankAccount) anyObject());
+
         doAnswer(new Answer<BankAccount>()
         {
             @Override
@@ -125,7 +143,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(2)).get("1234567890");
-        verify(mockTransactionDAO, only()).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
     }
 
     @Test
@@ -150,6 +168,11 @@ public class BankAccountManagementTest
         assertTrue(transactions.size() == 1);
         assertEquals(transactions.get(0).getAmount(), 1000000d);
         assertEquals(transactions.get(0).getAccountNo(), "1234567890");
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(1)).update((BankAccount) anyObject());
     }
 
     @Test
