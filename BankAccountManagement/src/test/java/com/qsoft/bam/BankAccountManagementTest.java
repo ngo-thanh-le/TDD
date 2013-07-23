@@ -205,6 +205,11 @@ public class BankAccountManagementTest
         assertEquals(2, transactions.size());
         assertEquals(-888888d, transactions.get(0).getAmount());
         assertEquals(888888d, transactions.get(1).getAmount());
+
+        // Verify DAO executions
+        verify(mockBankAccountDAO, times(3)).get("1234567890");
+        verify(mockTransactionDAO, times(2)).create((Transaction) anyObject());
+        verify(mockBankAccountDAO, times(2)).update((BankAccount) anyObject());
     }
 
     @Test
