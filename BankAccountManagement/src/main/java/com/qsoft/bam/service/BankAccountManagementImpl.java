@@ -5,6 +5,7 @@ import com.qsoft.bam.Transaction;
 import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +57,19 @@ public class BankAccountManagementImpl implements BankAccountManagement
     @Override
     public List<Transaction> getTransactionsOccurred(String accountNo, Date from, Date to)
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        // Simple implement, with retrieve all and filter
+        List<Transaction> transactions = transactionDAO.findAll();
+        List<Transaction> results = new ArrayList<Transaction>();
+        for (Transaction transaction : transactions)
+        {
+            if (transaction.getAccountNo().equals(accountNo)
+                    && transaction.getTransactionTime().after(from)
+                    && transaction.getTransactionTime().before(to))
+            {
+                results.add(transaction);
+            }
+        }
+        return results;
     }
 
     @Override

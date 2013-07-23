@@ -13,9 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static junit.framework.Assert.*;
 import static junit.framework.TestCase.assertNull;
@@ -87,6 +85,15 @@ public class BankAccountManagementTest
                 return null;
             }
         }).when(mockTransactionDAO).create((Transaction) anyObject());
+
+        doAnswer(new Answer<List<Transaction>>()
+        {
+            @Override
+            public List<Transaction> answer(InvocationOnMock invocation) throws Throwable
+            {
+                return occurredTransactions;
+            }
+        }).when(mockTransactionDAO).findAll();
     }
 
     @Test
@@ -124,6 +131,11 @@ public class BankAccountManagementTest
     @Test
     public void testVerifyTransaction()
     {
+        GregorianCalendar testingTime = new GregorianCalendar();
+        // Reduce time by 1s
+        testingTime.add(Calendar.SECOND, -1);
+        Date from = testingTime.getTime();
+
         bankAccountManagement.openAccount("1234567890", 0d);
         bankAccountManagement.deposit("1234567890", 1000000d, "Give me a million.");
         BankAccount account = bankAccountManagement.getAccount("1234567890");
@@ -131,9 +143,12 @@ public class BankAccountManagementTest
         assertEquals(1000000d, account.getBalance());
         assertEquals("1234567890", account.getAccountNo());
 
-        List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("1234567890", new Date(), new Date());
+        // Increase time by 1s, ensure the transaction happened
+        testingTime.add(Calendar.SECOND, 2);
+        Date to = testingTime.getTime();
+        List<Transaction> transactions = bankAccountManagement.getTransactionsOccurred("1234567890", from, to);
         assertTrue(transactions.size() == 1);
-        assertEquals(transactions.get(0).getAccountNo(), 1000000d);
+        assertEquals(transactions.get(0).getAmount(), 1000000d);
         assertEquals(transactions.get(0).getAccountNo(), "1234567890");
     }
 
