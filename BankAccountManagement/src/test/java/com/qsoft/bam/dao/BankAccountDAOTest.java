@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
+import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -30,5 +31,24 @@ public class BankAccountDAOTest extends AbstractDAOTest
         assertEquals(account.getAccountNo(), accountRetrievedBack.getAccountNo());
         assertEquals(account.getBalance(), accountRetrievedBack.getBalance(), 0.01d);
         assertEquals(account.getOpenTimestamp(), accountRetrievedBack.getOpenTimestamp());
+    }
+
+    @Test
+    public void testDeleteBankAccount()
+    {
+        BankAccount account = new BankAccount();
+        account.setAccountNo("0123456789");
+        account.setBalance(1000d);
+        account.setOpenTimestamp(new Date());
+        bankAccountDAO.save(account);
+
+        BankAccount accountRetrievedBack = bankAccountDAO.findByAccountNo("0123456789");
+        assertEquals(account.getAccountNo(), accountRetrievedBack.getAccountNo());
+        assertEquals(account.getBalance(), accountRetrievedBack.getBalance(), 0.01d);
+        assertEquals(account.getOpenTimestamp(), accountRetrievedBack.getOpenTimestamp());
+
+        bankAccountDAO.delete(accountRetrievedBack);
+        accountRetrievedBack = bankAccountDAO.findByAccountNo("0123456789");
+        assertNull(accountRetrievedBack);
     }
 }
