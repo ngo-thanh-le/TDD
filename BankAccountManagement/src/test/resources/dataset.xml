@@ -1,4 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     <bank_account id="1" accountNo="9876543210" balance="1000" openTimestamp="2013-01-01 18:30:30"/>
+    <transaction id="1" accountNo="9876543210" amount="500" description="setup data 1"
+                 transactionTime="2013-01-01 18:30:31"/>
 </dataset>

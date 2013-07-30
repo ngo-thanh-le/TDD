@@ -119,7 +119,7 @@ public class BankAccountManagementTest
                 occurredTransactions.add((Transaction) invocation.getArguments()[0]);
                 return null;
             }
-        }).when(mockTransactionDAO).create((Transaction) anyObject());
+        }).when(mockTransactionDAO).save((Transaction) anyObject());
 
         doAnswer(new Answer<List<Transaction>>()
         {
@@ -160,7 +160,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(1)).save((Transaction) anyObject());
     }
 
     @Test
@@ -188,7 +188,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(1)).save((Transaction) anyObject());
         verify(mockBankAccountDAO, times(1)).save((BankAccount) anyObject());
     }
 
@@ -204,7 +204,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(1)).save((Transaction) anyObject());
         verify(mockBankAccountDAO, times(1)).save((BankAccount) anyObject());
     }
 
@@ -225,7 +225,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(3)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(2)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(2)).save((Transaction) anyObject());
         verify(mockBankAccountDAO, times(2)).save((BankAccount) anyObject());
     }
 
@@ -256,7 +256,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(4)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(3)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(3)).save((Transaction) anyObject());
         verify(mockBankAccountDAO, times(3)).save((BankAccount) anyObject());
     }
 
@@ -276,7 +276,7 @@ public class BankAccountManagementTest
 
         // Verify DAO executions
         verify(mockBankAccountDAO, times(6)).findByAccountNo("1234567890");
-        verify(mockTransactionDAO, times(6)).create((Transaction) anyObject());
+        verify(mockTransactionDAO, times(6)).save((Transaction) anyObject());
         verify(mockBankAccountDAO, times(6)).save((BankAccount) anyObject());
     }
 

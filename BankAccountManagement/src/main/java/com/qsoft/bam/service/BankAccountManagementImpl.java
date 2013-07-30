@@ -83,7 +83,7 @@ public class BankAccountManagementImpl implements BankAccountManagement
         transaction.setAmount(amount);
         transaction.setDescription(description);
         transaction.setTransactionTime(new Date());
-        transactionDAO.create(transaction);
+        transactionDAO.save(transaction);
     }
 
     @Override
