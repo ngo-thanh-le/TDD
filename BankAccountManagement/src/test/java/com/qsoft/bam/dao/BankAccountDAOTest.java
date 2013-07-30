@@ -4,10 +4,12 @@ import com.qsoft.bam.model.BankAccount;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * User: lent
@@ -17,6 +19,17 @@ public class BankAccountDAOTest extends AbstractDAOTest
 {
     @Autowired
     private BankAccountDAO bankAccountDAO;
+
+    @Test
+    public void testGetBankAccount()
+    {
+        BankAccount existedAccount = bankAccountDAO.findByAccountNo("9876543210");
+
+        assertNotNull(existedAccount);
+        assertEquals("9876543210", existedAccount.getAccountNo());
+        assertEquals(1000d, existedAccount.getBalance(), 0.01d);
+        assertEquals("2013-01-01 18:30:30.0", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(existedAccount.getOpenTimestamp()));
+    }
 
     @Test
     public void testSaveBankAccount()
