@@ -1,11 +1,14 @@
-package com.qsoft.bam;
+package com.qsoft.bam.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * User: lent
  * Date: 7/8/13
  */
+@Entity
+@Table(name = "transaction")
 public class Transaction
 {
     public String getAccountNo()
@@ -48,8 +51,26 @@ public class Transaction
         this.transactionTime = transactionTime;
     }
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    @Column
     private String accountNo;
+    @Column
     private double amount;
+    @Column
     private String description;
+    @Column
     private Date transactionTime;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 }

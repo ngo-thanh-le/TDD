@@ -1,8 +1,8 @@
 package com.qsoft.bam.service;
 
-import com.qsoft.bam.BankAccount;
-import com.qsoft.bam.Transaction;
 import com.qsoft.bam.dao.BankAccountDAO;
+import com.qsoft.bam.model.BankAccount;
+import com.qsoft.bam.model.Transaction;
 
 import java.util.Date;
 import java.util.List;

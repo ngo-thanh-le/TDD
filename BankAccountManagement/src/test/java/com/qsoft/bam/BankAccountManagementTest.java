@@ -2,6 +2,8 @@ package com.qsoft.bam;
 
 import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
+import com.qsoft.bam.model.BankAccount;
+import com.qsoft.bam.model.Transaction;
 import com.qsoft.bam.service.BankAccountManagement;
 import com.qsoft.bam.service.BankAccountManagementImpl;
 import com.qsoft.bam.utils.DateUtils;
@@ -56,16 +58,7 @@ public class BankAccountManagementTest
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable
             {
-                availableAccounts.add((BankAccount) invocation.getArguments()[0]);
-                return null;
-            }
-        }).when(mockBankAccountDAO).create((BankAccount) anyObject());
-
-        doAnswer(new Answer<Void>()
-        {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable
-            {
+                boolean isUpdate = false;
                 for (BankAccount bankAccount : availableAccounts)
                 {
                     BankAccount updatedBankAccountParam = (BankAccount) invocation.getArguments()[0];
@@ -74,10 +67,33 @@ public class BankAccountManagementTest
                     {
                         bankAccount.setBalance(updatedBankAccountParam.getBalance());
                     }
+                    isUpdate = true;
+                }
+                if (!isUpdate)
+                {
+                    availableAccounts.add((BankAccount) invocation.getArguments()[0]);
                 }
                 return null;
             }
-        }).when(mockBankAccountDAO).update((BankAccount) anyObject());
+        }).when(mockBankAccountDAO).save((BankAccount) anyObject());
+
+//        doAnswer(new Answer<Void>()
+//        {
+//            @Override
+//            public Void answer(InvocationOnMock invocation) throws Throwable
+//            {
+//                for (BankAccount bankAccount : availableAccounts)
+//                {
+//                    BankAccount updatedBankAccountParam = (BankAccount) invocation.getArguments()[0];
+//                    if (bankAccount.getAccountNo()
+//                            .equals(updatedBankAccountParam.getAccountNo()))
+//                    {
+//                        bankAccount.setBalance(updatedBankAccountParam.getBalance());
+//                    }
+//                }
+//                return null;
+//            }
+//        }).when(mockBankAccountDAO).save((BankAccount) anyObject());
 
         doAnswer(new Answer<BankAccount>()
         {
@@ -93,7 +109,7 @@ public class BankAccountManagementTest
                 }
                 return null;
             }
-        }).when(mockBankAccountDAO).get(anyString());
+        }).when(mockBankAccountDAO).findByAccountNo(anyString());
 
         doAnswer(new Answer<Void>()
         {
@@ -143,7 +159,7 @@ public class BankAccountManagementTest
         assertEquals("1234567890", account.getAccountNo());
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
     }
 
@@ -171,9 +187,9 @@ public class BankAccountManagementTest
         assertEquals(transactions.get(0).getAccountNo(), "1234567890");
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(1)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(1)).save((BankAccount) anyObject());
     }
 
     @Test
@@ -187,9 +203,9 @@ public class BankAccountManagementTest
         assertEquals("1234567890", account.getAccountNo());
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(2)).get("1234567890");
+        verify(mockBankAccountDAO, times(2)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(1)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(1)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(1)).save((BankAccount) anyObject());
     }
 
     @Test
@@ -208,9 +224,9 @@ public class BankAccountManagementTest
         assertEquals(888888d, transactions.get(1).getAmount());
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(3)).get("1234567890");
+        verify(mockBankAccountDAO, times(3)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(2)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(2)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(2)).save((BankAccount) anyObject());
     }
 
     @Test
@@ -239,9 +255,9 @@ public class BankAccountManagementTest
         assertEquals(888888d, transactions.get(1).getAmount());
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(4)).get("1234567890");
+        verify(mockBankAccountDAO, times(4)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(3)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(3)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(3)).save((BankAccount) anyObject());
     }
 
     @Test
@@ -259,9 +275,9 @@ public class BankAccountManagementTest
         assertEquals(5, transactions.size());
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(6)).get("1234567890");
+        verify(mockBankAccountDAO, times(6)).findByAccountNo("1234567890");
         verify(mockTransactionDAO, times(6)).create((Transaction) anyObject());
-        verify(mockBankAccountDAO, times(6)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(6)).save((BankAccount) anyObject());
     }
 
     @Test
@@ -278,8 +294,8 @@ public class BankAccountManagementTest
         assertTrue(DateUtils.isAfterOrEquals(afterOpen, account.getOpenTimestamp()));
 
         // Verify DAO executions
-        verify(mockBankAccountDAO, times(1)).get("1234567890");
-        verify(mockBankAccountDAO, times(0)).update((BankAccount) anyObject());
+        verify(mockBankAccountDAO, times(1)).findByAccountNo("1234567890");
+        verify(mockBankAccountDAO, times(0)).save((BankAccount) anyObject());
     }
 
     @After

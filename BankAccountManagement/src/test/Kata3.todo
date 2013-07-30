@@ -1,4 +1,5 @@
 1. Create abstract test class with layout support using DBUnit, Spring, Hibernate
-2. Create *DAOImpl for existing interfaces with empty body
+2. Create *DAOImpl for existing interfaces with empty body >> Invalid
+Using JPARepository instead
 3. Config beans
 4. Create test class for each DAO

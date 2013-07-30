@@ -1,6 +1,6 @@
 package com.qsoft.bam.dao;
 
-import com.qsoft.bam.Transaction;
+import com.qsoft.bam.model.Transaction;
 
 import java.util.List;
 

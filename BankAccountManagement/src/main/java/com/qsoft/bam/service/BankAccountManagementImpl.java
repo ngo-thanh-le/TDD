@@ -1,9 +1,9 @@
 package com.qsoft.bam.service;
 
-import com.qsoft.bam.BankAccount;
-import com.qsoft.bam.Transaction;
 import com.qsoft.bam.dao.BankAccountDAO;
 import com.qsoft.bam.dao.TransactionDAO;
+import com.qsoft.bam.model.BankAccount;
+import com.qsoft.bam.model.Transaction;
 import com.qsoft.bam.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -33,13 +33,13 @@ public class BankAccountManagementImpl implements BankAccountManagement
         account.setAccountNo(accountNo);
         account.setBalance(balance);
         account.setOpenTimestamp(new Date());
-        bankAccountDAO.create(account);
+        bankAccountDAO.save(account);
     }
 
     @Override
     public BankAccount getAccount(String accountNo)
     {
-        return bankAccountDAO.get(accountNo);
+        return bankAccountDAO.findByAccountNo(accountNo);
     }
 
     @Override
@@ -75,9 +75,9 @@ public class BankAccountManagementImpl implements BankAccountManagement
 
     private void modifyAccountAmount(String accountNo, double amount, String description)
     {
-        BankAccount account = bankAccountDAO.get(accountNo);
+        BankAccount account = bankAccountDAO.findByAccountNo(accountNo);
         account.setBalance(account.getBalance() + amount);
-        bankAccountDAO.update(account);
+        bankAccountDAO.save(account);
         Transaction transaction = new Transaction();
         transaction.setAccountNo(accountNo);
         transaction.setAmount(amount);
